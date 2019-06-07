@@ -1,14 +1,29 @@
-// import Vue from 'vue'
-// import Router from 'vue-router'
-// Vue.use(Router);
-// import Home from '@components/home';
-// // import Form from '@components/Form'
-// export default new Router({
-//     mode: 'history',
-//     routes: [
-//       {path: '/home',component:Home , titulo: 'Home'},
-//     //   {path: '/form',component:Form , titulo: 'Form'},
-       
-//     ]
-//   })
-  
+import Vue from 'vue';
+import Router from 'vue-router';
+import home from '@/components/Home';
+import reclamar from '@/components/reclamar';
+import ranking from '@/components/ranking';
+
+Vue.use(Router)
+
+export default new Router({
+	routes: [
+	{
+		path: '/',
+		name: 'home',
+		component: home
+	},
+	{
+		path:'/reclamar',
+		name: 'blog',
+		component: reclamar
+	},
+	{
+		path:'/ranking',
+		name: 'ranking',
+		component: ranking
+	}
+	]
+
+}
+)
