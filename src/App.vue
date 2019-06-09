@@ -7,11 +7,21 @@
       <v-btn flat><router-link class="nav-link" to="/">Inicio</router-link></v-btn>
       <v-btn flat><router-link class="nav-link" to="/reclamar">Reclamar</router-link></v-btn>
       <v-btn flat><router-link class="nav-link" to="/ranking">Ranking</router-link></v-btn>
-      <v-btn flat>Reputação dos Motoristas</v-btn>
-      <v-btn flat>Duvidas Frequentes</v-btn>
+      <v-btn flat><router-link class="nav-link" to="/ranking">Reputação dos Motoristas</router-link></v-btn>
+      
     </v-toolbar-items>
-  </v-toolbar>
+      <v-spacer></v-spacer>
+       <v-avatar v-if="autenticated == false" color="black">
+      <v-icon dark>account_circle</v-icon>
+    </v-avatar>
+      <v-avatar v-else>
+      <img
+        v-bind:src='photoUrl' 
+        alt="John"
+      >
+    </v-avatar>
 
+  </v-toolbar>
     <v-navigation-drawer
       v-model="drawer"
       temporary
@@ -20,6 +30,8 @@
       id = "drawer"
     >
     </v-navigation-drawer>
+       
+
     <v-content grid-list-xl style="background-color: white;">
       <router-view/>
     </v-content>
@@ -29,13 +41,24 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 
 export default {
+
     name: 'app',
     data: () =>  ({
       drawer:null,
-
     }),
+    methods:{
+      addPhotoUrl(){
+        this.$store.dispatch('ADD_URL','abc')
+      }
+    },
+    computed: {
+      ...mapGetters(['autenticated']),
+      ...mapGetters(['photoUrl'])
+    },
+    
   }
 </script>
 
