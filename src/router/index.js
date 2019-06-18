@@ -6,9 +6,13 @@ import Auth from '@/components/Auth';
 import AuthSucess from '@/components/AuthSuccess';
 import ranking from '@/components/ranking';
 import Vuex from 'vuex';
+import axios from 'axios'
+
 
 Vue.use(Router)
 Vue.use(Vuex);
+Vue.use(axios)
+
 
 export default new Router({
 	routes: [

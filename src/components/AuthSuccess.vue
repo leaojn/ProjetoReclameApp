@@ -1,15 +1,7 @@
 <template>
   <div>
-    <h1>Signup succeeded</h1>
-    <button @click='logOut'>Log out</button>
-    <button @click='teste'>teste</button>
-    <hr>
-    <img :src="photo" style='height: 120px'> <br>
-    <p>{{name}}</p>
-    <p>{{email}}</p>
-    <p>{{userId}}</p>
-    <hr>
-    <pre>{{user}}</pre>
+   <button @click='logOut'>Log out</button>
+  {{getUserLogged}}
   </div>
 </template>
 
@@ -30,7 +22,8 @@ export default {
    },
     computed: {
       ...mapGetters(['autenticated']),
-      ...mapGetters(['photoUrl'])
+      ...mapGetters(['photoUrl']),
+      ...mapGetters(['getUserLogged'])
     },
    created() {
      var vm = this
@@ -41,7 +34,11 @@ export default {
          vm.email = vm.user.email;
          vm.photo = vm.user.photoURL;
          vm.userId = vm.user.uid;
-         vm.$store.dispatch('ADD_URL',vm.photo)
+         vm.$store.dispatch('ADD_URL',vm.photo);
+         vm.$store.dispatch('USER_DATA',vm.user);
+         vm.$store.dispatch('POST_USER',vm.user);
+
+
 
       }
     });
@@ -51,12 +48,6 @@ export default {
       this.$store.dispatch('LOGOUT_USER');
       firebase.auth().signOut();
     },
-    teste(){
-        this.$store.commit('setPicture' ,this.picture)
-        alert("Deu certo");
-    },
-   
-
   },
 };
 </script>
