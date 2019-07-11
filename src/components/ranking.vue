@@ -3,11 +3,11 @@
     <h1
       class="text-md-center"
       style="margin-top: 3rem; text-align: center;"
-    >Ranking dos piores aplicativos</h1>
-    <v-layout row wrap style="padding-top:2rem;" v-for="item in getApps" :key="item.nome">
+    >Ranking dos piores aplicativos </h1>
+    <v-layout row wrap style="padding-top:2rem;" v-for="item in apps" :key="item.nome">
       <v-flex xs1 md4></v-flex>
-      
-      <v-flex xs10 sm12 md4  >
+
+      <v-flex xs10 sm12 md4>
         <v-card
           flat
           dark
@@ -28,9 +28,9 @@
               class="shrink ma-2"
               contain
               height
-              src="https://www.uber-assets.com/image/upload/v1538695540/iOS_App_Icon.png"
-              style="height: 125px"
-            >
+              :src="item.icon"
+              style="width: 30%; height: 15%"
+            />
           </v-layout>
           <v-divider dark></v-divider>
           <v-card-actions class="pa-3">
@@ -62,6 +62,7 @@ import { mapGetters } from "vuex";
 
 export default {
   data: () => ({
+    // apps:"getApps",
     emptyIcon: "mdi-heart-outline",
     halfIcon: "mdi-heart-half-full",
     halfIncrements: false,
@@ -70,11 +71,12 @@ export default {
     rating: 4,
     readonly: true
   }),
-  mounted() {
-    this.$store.dispatch("GET_APP", "abc");
+  mounted() {},
+  created: function() {
+    this.$store.dispatch("GET_APP");
   },
   computed: {
-    ...mapGetters(["getApps"])
+    ...mapGetters({ apps: "apps" })
   }
 };
 </script>

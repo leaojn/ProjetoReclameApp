@@ -11,12 +11,21 @@ export default {
         photoUrl: '',
         user: {},
         uid: '',
-        apps:{}
+        apps: {},
+        nameApps: ['teste'],
+        loading: false
+
     },
     mutations: {
         STATE_ADD_URL(state, photo) {
             state.isAuthenticated = true;
             state.photoUrl = photo;
+        },
+        INIT_LOADING(state){
+            state.loading = true
+        },
+        FINISH_LOADING(state){
+            state.loading = false
         },
         STATE_LOGOUT_USER(state) {
             state.autenticated = true;
@@ -34,12 +43,30 @@ export default {
         },
         STATE_GET_APP(state) {
             axios
-            .get("https://reclametaxi.herokuapp.com/app/")
-            .then(response => {
-              state.apps = response.data;
-            })
-            .catch(error => {
-              alert(error.response.status);
+                .get("https://reclametaxi.herokuapp.com/app/")
+                .then(response => {
+                    // console.log(responsehttps://reclametaxi.herokuapp.com/app/)
+                    state.apps = response.data;
+                })
+                .catch(error => {
+                    alert(error.response.status);
+                });
+        },
+        STATE_POST_REPORT(state, reclamacao, dispatch) {
+         
+            axios.post("http://localhost:8000/reclamacao/", { 
+                auth: {
+                    username: "admin@admin.com",
+                    password: "Informatica"
+                },
+                headers: { "Access-Control-Allow-Origin": "*" },
+                data: reclamacao },).then(
+                (response => {
+                    console.log(response.data.message)
+
+                })
+            ).catch(error => {
+                console.log(error.response.data);
             });
         }
 
@@ -51,7 +78,16 @@ export default {
         autenticated: state => state.isAuthenticated,
         getUserLogged: state => state.user,
         getUid: state => state.uid,
-        getApps: state => state.apps
+        getApps: state => state.apps,
+        getNameapps: state => {
+            return state.apps;
+        },
+        apps(state) {
+            return state.apps
+        },
+        loading(state){
+            return state.loading
+        }
 
     },
     actions: {
@@ -67,8 +103,25 @@ export default {
         POST_USER(context) {
             context.commit('STATE_POST_USER')
         },
-        GET_APP(context){
-            context.commit('STATE_GET_APP')
+        GET_APP({ commit }) {
+            commit('STATE_GET_APP')
+        },
+        initLoading({commit}){
+            commit('INIT_LOADING')
+        },
+        finishLoading({commit}){
+            commit('FINISH_LOADING')
+        },
+        POST_RECLAMACAO({commit,state,dispatch}, reclamacao) {
+
+            dispatch('initLoading')     
+            console.log(state.loading)
+            commit("STATE_POST_REPORT", reclamacao)
+            dispatch('finishLoading')   
+            console.log(state.loading)
+  
+
+
         }
 
 

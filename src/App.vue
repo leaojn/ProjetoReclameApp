@@ -31,7 +31,6 @@
       </v-avatar>
     </v-toolbar>
     <v-navigation-drawer v-model="drawer" temporary absolute width="200" id="drawer"></v-navigation-drawer>
-    {{getUid}}
     <v-content grid-list-xl style="background-color: white;">
       <router-view/>
     </v-content>

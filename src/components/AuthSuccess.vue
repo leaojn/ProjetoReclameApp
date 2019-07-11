@@ -38,8 +38,6 @@ export default {
          vm.$store.dispatch('USER_DATA',vm.user);
          vm.$store.dispatch('POST_USER',vm.user);
 
-
-
       }
     });
   },
