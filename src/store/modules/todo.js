@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 
 Vue.use(Vuex)
@@ -36,10 +37,14 @@ export default {
             state.user = user;
         },
         STATE_POST_USER(state) {
-            axios.post('https://reclametaxi.herokuapp.com/user/login', {
+            axios.post('http://127.0.0.1:8000/user/login', {
                 body: state.user.providerData[0]
             }).then(response => {
+                console.log(response.data)
                 state.uid = response.data.uid;
+            }).catch(response=>{
+                alert(response)
+                console.log(response)
             })
         },
         STATE_GET_APP(state) {
@@ -55,7 +60,7 @@ export default {
         },
         STATE_POST_REPORT(state, reclamacao, dispatch) {
 
-            axios.post("http://localhost:8000/reclamacao/", {
+            axios.post("http://127.0.0.1:8000/reclamacao/", {
                 auth: {
                     username: "admin@admin.com",
                     password: "Informatica"
@@ -65,25 +70,31 @@ export default {
             }).then(
                 (response => {
                     console.log(response.data.message)
+                    this.$router.push('/success') 
+
 
                 })
             ).catch(error => {
                 console.log(error.response.data);
             });
         },
-        STATE_GET_USER_REPORTS(state, uid){
-            console.log(uid)
-           
+        STATE_GET_USER_REPORTS(state, uid) {
+
+
+
 
         },
-        REPORTS(state, uid){
-            var url = "https://reclametaxi.herokuapp.com/reclamacao/?uid=" + uid
+        REPORTS(state, uid) {
+            let id = uid
+            // console.log(id)
+            var url = "https://reclametaxi.herokuapp.com/reclamacao/?uid=" + id
             console.log(url)
-            // axios.get("https://reclametaxi.herokuapp.com/reclamacao/?uid=" + uid).then(response =>{
-            //     state.reporters_user[uid] = response.data
-            // }).catch(response=>{
-            //     state.reporters_user[uid] = 'vazio'
-            // })
+            axios.get("https://reclametaxi.herokuapp.com/reclamacao/?uid=" + uid).then(response =>{
+                console.log(response.data)
+                state.reporters_user = response.data
+            }).catch(response=>{
+                state.reporters_user[uid] = 'vazio'
+            })
 
 
         },
@@ -106,7 +117,7 @@ export default {
         loading(state) {
             return state.loading
         },
-        reporters_user(state){
+        reporters_user(state) {
             return state.reporters_user
         }
 
@@ -133,13 +144,19 @@ export default {
         finishLoading({ commit }) {
             commit('FINISH_LOADING')
         },
-       
+
         POST_RECLAMACAO({ commit, state, dispatch }, reclamacao) {
 
             dispatch('initLoading')
             commit("STATE_POST_REPORT", reclamacao)
+            console.log(reclamacao)
             dispatch('finishLoading')
 
+
+
+        },
+        LIST_REPORTS({ commit, dispatch, getters, state }) {
+            // console.log(state//)
 
 
         }

@@ -99,14 +99,16 @@ export default {
   methods: {
     submit: function() {
       this.$validator.validateAll();
+      alert(this.select)
       let reclamacao = {
         "name_driver": this.name,
         "placa": this.placa,
-        "app": this.app,
+        "app": this.select,
         "uid": this.uid,
         "descr": this.title
       };
       this.$store.dispatch("POST_RECLAMACAO", reclamacao);
+
     },
 
     getNameApps: function(array) {

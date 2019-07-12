@@ -41,22 +41,19 @@
     </v-flex>
     <v-flex xs7>
       <span style="font-size:1.3rem; font-weight: bold">Minhas reclamações</span>
-      {{reporters_user}}
       <v-divider></v-divider>
       <v-list two-line>
-        <template v-for="(item, index) in items">
+        <template v-for="(item, index) in reporters_user">
           <v-list-tile :key="item.title" avatar ripple @click="toggle(index)">
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              <v-list-tile-sub-title class="text--primary">{{ item.headline }}</v-list-tile-sub-title>
-              <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+              <v-list-tile-title>Motorista: {{ item.driver.name }}</v-list-tile-title>
+              <v-list-tile-sub-title class="text--primary">Placa: {{ item.driver.placa }}</v-list-tile-sub-title>
+              <v-list-tile-sub-title>{{item.descr}}</v-list-tile-sub-title>
             </v-list-tile-content>
 
             <v-list-tile-action>
-              <v-list-tile-action-text>{{ item.action }}</v-list-tile-action-text>
-              <v-icon v-if="selected.indexOf(index) < 0" color="grey lighten-1">star_border</v-icon>
-
-              <v-icon v-else color="yellow darken-2">star</v-icon>
+              <v-list-tile-action-text>{{ item.created | date DD/MM/YYYY }}</v-list-tile-action-text>
+              
             </v-list-tile-action>
           </v-list-tile>
           <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
@@ -128,11 +125,9 @@ export default {
     ...mapGetters(["autenticated"]),
     ...mapGetters(["photoUrl"]),
     ...mapGetters(["getUserLogged"]),
-    ...mapGetters(["reporters_user"]),
+    ...mapGetters(["reporters_user"])
   },
-  mounted(){
-    console.log(this.getUserLogged.uid)
-  },
+  mounted() {},
   created() {
     var vm = this;
     var uid;
@@ -143,20 +138,26 @@ export default {
         vm.email = vm.user.email;
         vm.photo = vm.user.photoURL;
         vm.userId = vm.user.uid;
-        uid = vm.user.uid
+        uid = vm.user.uid;
         vm.$store.dispatch("ADD_URL", vm.photo);
         vm.$store.dispatch("USER_DATA", vm.user);
         vm.$store.dispatch("POST_USER", vm.user);
+        console.log(vm.user.providerData[0].uid)
+        vm.reports(vm.user.providerData[0].uid); // console.log(uid)
       }
     });
-    // console.log(uid)
-    this.$store.commit("REPORTS", uid);
-    this.$store.commit("STATE_GET_USER_REPORTS", uid);
+    // console.log(this.getUserLogged.uid)
+    // this.$store.commit("REPORTS", vm.getUserLogged.uid);
+    // this.$store.commit("STATE_GET_USER_REPORTS", uid);
   },
   methods: {
     logOut() {
       this.$store.dispatch("LOGOUT_USER");
       firebase.auth().signOut();
+    },
+    reports(uid) {
+      console.log(uid);
+      this.$store.commit("REPORTS", uid);
     },
     toggle(index) {
       const i = this.selected.indexOf(index);
