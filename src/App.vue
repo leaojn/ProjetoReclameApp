@@ -14,7 +14,7 @@
           <router-link class="nav-link" to="/ranking">Ranking</router-link>
         </v-btn>
         <v-btn flat>
-          <router-link class="nav-link" to="/ranking">Reputação dos Motoristas</router-link>
+          <router-link class="nav-link" to="/ranking-motoristas">Reputação dos Motoristas</router-link>
         </v-btn>
         <v-btn @click="buttonTest" flat>test</v-btn>
       </v-toolbar-items>

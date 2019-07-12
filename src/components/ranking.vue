@@ -36,7 +36,7 @@
           <v-card-actions class="pa-3">
             Nota geral
             <v-spacer></v-spacer>
-            <span class="grey--text text--lighten-2 caption mr-2">(5)</span>
+            <span class="grey--text text--lighten-2 caption mr-2">({{ reputation(item) }})</span>
             <v-rating
               v-model="rating"
               background-color="white"
@@ -68,12 +68,17 @@ export default {
     halfIncrements: false,
     hover: false,
     length: 5,
-    rating: 4,
+    rating: 5,
     readonly: true
   }),
   mounted() {},
   created: function() {
     this.$store.dispatch("GET_APP");
+  },
+  methods: {
+    reputation(app){
+      return Math.round(app.reputation * 10 / 2)
+    }
   },
   computed: {
     ...mapGetters({ apps: "apps" })

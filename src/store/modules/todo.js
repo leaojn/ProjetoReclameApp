@@ -16,7 +16,6 @@ export default {
         nameApps: ['teste'],
         loading: false,
         reporters_user: {}
-
     },
     mutations: {
         STATE_ADD_URL(state, photo) {

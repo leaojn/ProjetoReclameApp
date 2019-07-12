@@ -5,16 +5,17 @@ import reclamar from '@/components/reclamar';
 import Auth from '@/components/Auth';
 import AuthSucess from '@/components/AuthSuccess';
 import ranking from '@/components/ranking';
+import rankingDriver from '@/components/rankingDriver';
 import Vuex from 'vuex';
 import axios from 'axios'
 
 
 Vue.use(Router)
 Vue.use(Vuex);
-Vue.use(axios)
-
+Vue.use(axios);
 
 export default new Router({
+	mode: 'history',
 	routes: [
 	{
 		path: '/',
@@ -30,6 +31,11 @@ export default new Router({
 		path:'/ranking',
 		name: 'ranking',
 		component: ranking
+	},
+	{
+		path:'/ranking-motoristas',
+		name: 'ranking-motoristas',
+		component: rankingDriver
 	},
 	{
 		path:'/auth',
