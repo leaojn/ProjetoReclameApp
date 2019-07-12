@@ -7,22 +7,20 @@
     <v-data-table
     :headers="headers"
     :items="drivers"
-    class="elevation-1"
+    class="tab"
   >
     <template v-slot:items="props">
       <td>{{ props.item.name }}</td>
       <td>{{ props.item.placa }}</td>
       <td>
-        <div v-for="app of props.item.apps" style="display: inline-block;">
+        <div v-for="app of props.item.apps" v-bind:key="app.name" style="display: inline-block;">
           <img :src="app.icon" style="height:2.5rem;width:2.5rem;border-radius: 50%; margin-right: .5rem;">
         </div>
       </td>
-      <td></td>
+      <td>{{ props.item.reputation }}</td>
     </template>
   </v-data-table>
-    <v-layout row wrap style="padding-top:2rem;" v-for="item in drivers" :key="item.nome">
-      
-    </v-layout>
+    
   </div>
 </template>
 
@@ -36,7 +34,7 @@ export default {
       { text: 'Nome', value: 'name' },
       { text: 'Placa', value: 'placa' },
       { text: 'Apps', value: 'apps' },
-      { text: 'Reclamações', value: 'reclamações' },
+      { text: 'Reputação', value: 'reputação'}
     ],
     emptyIcon: "mdi-heart-outline",
     halfIcon: "mdi-heart-half-full",
@@ -53,10 +51,7 @@ export default {
   methods: {
     list(){
       Driver.all().then(response => {
-        console.log(response.data);
         this.drivers = response.data;
-      }).catch(e => {
-        console.log(e)
       })
     }
   },
@@ -69,4 +64,7 @@ export default {
 };
 </script>
 <style>
+.tab {
+  padding: 0px 30px 0 30px;
+}
 </style>
