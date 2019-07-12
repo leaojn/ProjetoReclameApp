@@ -13,8 +13,7 @@ export default {
         uid: '',
         apps: {},
         nameApps: ['teste'],
-        loading: false
-
+        loading: false,
     },
     mutations: {
         STATE_ADD_URL(state, photo) {
