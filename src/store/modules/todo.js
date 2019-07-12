@@ -13,7 +13,8 @@ export default {
         uid: '',
         apps: {},
         nameApps: ['teste'],
-        loading: false
+        loading: false,
+        reporters_user: {}
 
     },
     mutations: {
@@ -21,10 +22,10 @@ export default {
             state.isAuthenticated = true;
             state.photoUrl = photo;
         },
-        INIT_LOADING(state){
+        INIT_LOADING(state) {
             state.loading = true
         },
-        FINISH_LOADING(state){
+        FINISH_LOADING(state) {
             state.loading = false
         },
         STATE_LOGOUT_USER(state) {
@@ -53,14 +54,15 @@ export default {
                 });
         },
         STATE_POST_REPORT(state, reclamacao, dispatch) {
-         
-            axios.post("http://localhost:8000/reclamacao/", { 
+
+            axios.post("http://localhost:8000/reclamacao/", {
                 auth: {
                     username: "admin@admin.com",
                     password: "Informatica"
                 },
                 headers: { "Access-Control-Allow-Origin": "*" },
-                data: reclamacao },).then(
+                data: reclamacao
+            }).then(
                 (response => {
                     console.log(response.data.message)
 
@@ -68,7 +70,23 @@ export default {
             ).catch(error => {
                 console.log(error.response.data);
             });
-        }
+        },
+        STATE_GET_USER_REPORTS(state, uid){
+            console.log(uid)
+           
+
+        },
+        REPORTS(state, uid){
+            var url = "https://reclametaxi.herokuapp.com/reclamacao/?uid=" + uid
+            console.log(url)
+            // axios.get("https://reclametaxi.herokuapp.com/reclamacao/?uid=" + uid).then(response =>{
+            //     state.reporters_user[uid] = response.data
+            // }).catch(response=>{
+            //     state.reporters_user[uid] = 'vazio'
+            // })
+
+
+        },
 
 
     },
@@ -85,8 +103,11 @@ export default {
         apps(state) {
             return state.apps
         },
-        loading(state){
+        loading(state) {
             return state.loading
+        },
+        reporters_user(state){
+            return state.reporters_user
         }
 
     },
@@ -106,20 +127,19 @@ export default {
         GET_APP({ commit }) {
             commit('STATE_GET_APP')
         },
-        initLoading({commit}){
+        initLoading({ commit }) {
             commit('INIT_LOADING')
         },
-        finishLoading({commit}){
+        finishLoading({ commit }) {
             commit('FINISH_LOADING')
         },
-        POST_RECLAMACAO({commit,state,dispatch}, reclamacao) {
+       
+        POST_RECLAMACAO({ commit, state, dispatch }, reclamacao) {
 
-            dispatch('initLoading')     
-            console.log(state.loading)
+            dispatch('initLoading')
             commit("STATE_POST_REPORT", reclamacao)
-            dispatch('finishLoading')   
-            console.log(state.loading)
-  
+            dispatch('finishLoading')
+
 
 
         }
